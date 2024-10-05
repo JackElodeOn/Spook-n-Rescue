@@ -5,8 +5,11 @@ using UnityEngine;
 public class RangedEnemy : MonoBehaviour
 {
     public int UnitsToMove = 5;
+    
+    public int speed = 500;
+    public bool _isFacingRight;
+
     public int health;
-    public int speed;
     private int currentHealth;
     private float startPos;
     Rigidbody2D _rb;
@@ -21,11 +24,8 @@ public class RangedEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_rb.transform.position.x < left)
         _rb.AddForce(Vector2.left*speed*Time.deltaTime, ForceMode2D.Impulse);
     }
-
-    void 
 
     
 }
