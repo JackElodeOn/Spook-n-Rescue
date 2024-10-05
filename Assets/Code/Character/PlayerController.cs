@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public KeyCode keyRight;
     public float moveSpeed;
     public Sprite[] sprites;
+    public float jumpForce = 10f;
+    public int jumpCount = 2;
 
     // State Tracking
     public Direction facingDirection;
@@ -39,9 +41,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(keyUp))
+        if (Input.GetKey(keyUp) && jumpCount > 0)
         {
-            _rigidbody.AddForce(Vector2.up * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            //jumpCount;
+            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
         if (Input.GetKey(keyDown))
         {
@@ -90,5 +93,30 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Check if we collided with ground
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Platforms"))
+        {
+            // Check what is directly below our character's feet
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 0.7f);
+
+            // We might have multiple things beneath our character's feet
+            for (int i = 0; i < hits.Length; i++)
+            {
+                RaycastHit2D hit = hits[i];
+
+                // Check that we collided with ground below our feet
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                {
+                    // Reset jump count
+                    jumpCount = 2;
+                }
+            }
+        }
+
+        
     }
 }
