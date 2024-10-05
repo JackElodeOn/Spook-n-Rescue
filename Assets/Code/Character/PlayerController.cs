@@ -23,10 +23,10 @@ public class PlayerController : MonoBehaviour
     public KeyCode keyDown;
     public KeyCode keyLeft;
     public KeyCode keyRight;
-    public float moveSpeed;
     public Sprite[] sprites;
     public float jumpForce = 10f;
     public int jumpCount = 2;
+    public float moveSpeed = 5f;
 
     // State Tracking
     public Direction facingDirection;
@@ -38,33 +38,26 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-    void FixedUpdate()
-    {
-        if (Input.GetKey(keyUp) && jumpCount > 0)
-        {
-            //jumpCount;
-            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-        if (Input.GetKey(keyDown))
-        {
-            _rigidbody.AddForce(Vector2.down * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        }
-        if (Input.GetKey(keyLeft))
-        {
-            _rigidbody.AddForce(Vector2.left * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        }
-        if (Input.GetKey(keyRight))
-        {
-            _rigidbody.AddForce(Vector2.right * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        }
-    }
     // Update is called once per frame
     void Update()
     {
-        float movementSpeed = _rigidbody.velocity.sqrMagnitude;
-        _animator.SetFloat("speed", movementSpeed);
-        if (movementSpeed > 0.1f)
+        // movement
+        if (Input.GetKey(keyUp))
+        {
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpForce);
+        }
+        if (Input.GetKey(keyLeft))
+        {
+            _rigidbody.velocity = new Vector2(-moveSpeed, _rigidbody.velocity.y);
+        }
+        if (Input.GetKey(keyRight))
+        {
+            _rigidbody.velocity = new Vector2(moveSpeed, _rigidbody.velocity.y);
+        }
+
+        float currentSpeed = _rigidbody.velocity.sqrMagnitude;
+        _animator.SetFloat("speed", currentSpeed);
+        if (currentSpeed > 0.1f)
         {
             _animator.SetFloat("movementX", _rigidbody.velocity.x);
             _animator.SetFloat("movementY", _rigidbody.velocity.y);
@@ -81,6 +74,8 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isAttacking", false); // Reset after animation ends
         }
+
+   
     }
 
     void LateUpdate()

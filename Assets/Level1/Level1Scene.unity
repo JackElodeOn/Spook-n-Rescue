@@ -1950,7 +1950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_Constraints
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_UseAutoMass
@@ -1958,7 +1958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_GravityScale
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5181509898551480796, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2003,6 +2003,26 @@ PrefabInstance:
     - target: {fileID: 7657871394769209091, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087320418499058968, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: keyUp
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087320418499058968, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: keyDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087320418499058968, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: keyLeft
+      value: 97
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087320418499058968, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: keyRight
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087320418499058968, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: moveSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8021221941884254886, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
