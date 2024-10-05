@@ -1938,10 +1938,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_Mass
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
       propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
+      propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 309785848058445810, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
