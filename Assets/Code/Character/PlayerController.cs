@@ -25,10 +25,17 @@ public class PlayerController : MonoBehaviour
     public KeyCode keyRight;
     public Sprite[] sprites;
 
+    // Health stats
+    public int maxHealth = 100;
+    private int currentHealth;
+
+    // Movement
     private float horizontal;
     private float speed = 3f;
     private float jumpingPower = 12f;
     private bool isFacingRight = true;
+
+    public bool specialAttackTriggered = false;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask platformLayer;
@@ -43,6 +50,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        currentHealth = maxHealth;
     }
     // Update is called once per frame
     void Update()
@@ -79,6 +87,12 @@ public class PlayerController : MonoBehaviour
         if (stateInfo.IsName("Attack") && stateInfo.normalizedTime >= 1.0f)
         {
             _animator.SetBool("isAttacking", false); // Reset after animation ends
+        }
+
+        // Perform the special attack for the final boss
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PerformSpecialAttack();
         }
     }
 
@@ -127,5 +141,38 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.red; // Choose the color for the gizmo
         Gizmos.DrawWireSphere(groundCheck.position, checkRadius); // Draw a wireframe circle
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+    }
+
+    public void PerformSpecialAttack()
+    {
+        if (!specialAttackTriggered)
+        {
+            specialAttackTriggered = true;
+        }
     }
 }
