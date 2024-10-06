@@ -10,6 +10,7 @@ public class FinalBossController : MonoBehaviour
     public Transform beamSpawnPoint;        // Position where the beam spawns
     public Animator bossAnimator;           // Animator for the boss
     public int bossHealth = 100;            // Boss health
+    private int currentHealth = 0;
     public GameObject blackoutScreen;       // Blackout screen for the big damage ability
     public PlayerController player;         // Reference to the player
     private bool isAttacking = false;       // To prevent attacks when waiting for a special attack
@@ -30,10 +31,7 @@ public class FinalBossController : MonoBehaviour
         if (!isAttacking && !hasDoneBigDamageAttack) // Ensure it's not in the middle of the big damage ability
         {
             // Randomly decide which ability to use
-            //int randomAbility = Random.Range(1, 3);  // 1 or 2 for simplicity
-
-            int randomAbility = 0;
-
+            int randomAbility = Random.Range(1, 3);  // 1 or 2 for simplicity
 
             if (randomAbility == 1)
             {
@@ -95,6 +93,8 @@ public class FinalBossController : MonoBehaviour
 
         Debug.Log("Final boss started big damage attack!");
         
+        yield return new WaitForSeconds(2f); // Give 3 seconds to perform the special attack
+
         // Show blackout screen
         blackoutScreen.SetActive(true);
 
@@ -120,6 +120,7 @@ public class FinalBossController : MonoBehaviour
 
         // Disable the blackout screen
         blackoutScreen.SetActive(false);
+        bossHealth = currentHealth;
 
         // Reset the attacking state and wait for 5 seconds
         StartCoroutine(ResetAfterAttack());
@@ -149,8 +150,10 @@ public class FinalBossController : MonoBehaviour
         bossHealth -= damage;
 
         // Check if boss health is 40 or below and the big damage attack has not been done yet
-        if (bossHealth <= 40 && !hasDoneBigDamageAttack)
+        if (bossHealth <= 50 && !hasDoneBigDamageAttack)
         {
+            currentHealth = bossHealth;
+            bossHealth = 1000;
             hasDoneBigDamageAttack = true;  // Ensure it only triggers once
             BigDamageAttack();              // Trigger the big damage attack
         }
