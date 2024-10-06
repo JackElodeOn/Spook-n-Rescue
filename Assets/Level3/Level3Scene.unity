@@ -25506,8 +25506,7 @@ MonoBehaviour:
   playerCamera: {fileID: 706647694}
   bossCamera: {fileID: 242565393}
   focusTime: 3
-  finalBossController: {fileID: 7448306473766893048, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
-  finalBoss: {fileID: 2102933608}
+  finalBossController: {fileID: 2102933615}
 --- !u!4 &1932801449
 Transform:
   m_ObjectHideFlags: 0
@@ -25555,6 +25554,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2102933615 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7448306473766893048, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
+  m_PrefabInstance: {fileID: 2621974320160444821}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102933608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c48c188ace9729140b4abc4baf617b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2621974320160444821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25677,19 +25687,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4654296771478415255, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
       propertyPath: orthographic size
-      value: 7
+      value: 9.797858
       objectReference: {fileID: 0}
     - target: {fileID: 6801360943287534639, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.37
       objectReference: {fileID: 0}
     - target: {fileID: 6801360943287534639, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.03999996
       objectReference: {fileID: 0}
     - target: {fileID: 6801360943287534639, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: -2.2217255
       objectReference: {fileID: 0}
     - target: {fileID: 8160613526301076142, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
       propertyPath: m_LocalPosition.x
