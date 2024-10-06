@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -194,6 +193,37 @@ Transform:
   m_Children:
   - {fileID: 1661945362}
   - {fileID: 964068359}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &962661685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 962661686}
+  m_Layer: 0
+  m_Name: FinalBossMinionsSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &962661686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962661685}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 52.28, y: 0.09, z: -1.9713291}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &964068358
@@ -25477,6 +25507,7 @@ MonoBehaviour:
   bossCamera: {fileID: 242565393}
   focusTime: 3
   finalBossController: {fileID: 7448306473766893048, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
+  finalBoss: {fileID: 2102933608}
 --- !u!4 &1932801449
 Transform:
   m_ObjectHideFlags: 0
@@ -25492,6 +25523,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2102933608 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8944638810065736178, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
+  m_PrefabInstance: {fileID: 2621974320160444821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &2102933613
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102933608}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &2621974320160444821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25540,6 +25603,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7448306473766893048, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
+      propertyPath: spawnPoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448306473766893048, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
+      propertyPath: spawnPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 962661686}
     - target: {fileID: 8944638810065736178, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
       propertyPath: m_Name
       value: FinalBoss
@@ -25547,7 +25618,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8944638810065736178, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2102933613}
   m_SourcePrefab: {fileID: 100100000, guid: 472e572df15daf140a1a4f99e30b9f9c, type: 3}
 --- !u!1001 &4237987782534120012
 PrefabInstance:
@@ -25658,3 +25732,4 @@ SceneRoots:
   - {fileID: 2621974320160444821}
   - {fileID: 4237987782534120012}
   - {fileID: 1932801449}
+  - {fileID: 962661686}

@@ -15,6 +15,30 @@ public class FinalBossController : MonoBehaviour
     private bool isAttacking = false;       // To prevent attacks when waiting for a special attack
     private bool hasDoneBigDamageAttack = false; // To ensure big damage attack only happens once
 
+    void Start()
+    {
+        bossAnimator = GetComponent<Animator>();
+
+        // Ensure the FinalBoss is active in the scene
+        if (!gameObject.activeInHierarchy)
+        {
+            gameObject.SetActive(true);  // Activate the boss if it's inactive at the start
+            Debug.Log("FinalBoss is manually activated.");
+        }
+
+        // Initialize variables
+        isAttacking = false;  // Ensure the boss is not in the middle of an attack at the start
+        hasDoneBigDamageAttack = false; // The big damage attack hasn't been triggered yet
+
+        // Optional: Start the boss in an idle or neutral state if needed
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger("Boss_Dormant"); // Assuming an idle state exists in the Animator
+        }
+
+        Debug.Log("FinalBoss has been initialized and is ready for the fight.");
+    }
+
     void Update()
     {
         if (bossHealth <= 0)
@@ -26,10 +50,18 @@ public class FinalBossController : MonoBehaviour
     // Method for the boss's two normal abilities
     public void StartAbilities()
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            Debug.LogError("FinalBoss is inactive! Cannot start abilities.");
+            return;
+        }
+
         if (!isAttacking && !hasDoneBigDamageAttack) // Ensure it's not in the middle of the big damage ability
         {
             // Randomly decide which ability to use
             int randomAbility = Random.Range(1, 3);  // 1 or 2 for simplicity
+
+            Debug.Log("Final boss started normal attack!");
 
             if (randomAbility == 1)
             {
@@ -45,6 +77,8 @@ public class FinalBossController : MonoBehaviour
     // Ability 1: Spawn Enemies
     IEnumerator SpawnEnemies()
     {
+        Debug.Log("Final boss started spawning enemies!");
+
         foreach (Transform spawnPoint in spawnPoints)
         {
             Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
@@ -57,6 +91,8 @@ public class FinalBossController : MonoBehaviour
     // Ability 2: Shoot a Beam
     IEnumerator ShootBeam()
     {
+        Debug.Log("Final boss started shooting beam!");
+
         // Play animation if needed
         bossAnimator.SetTrigger("ShootBeam");
 
@@ -76,7 +112,7 @@ public class FinalBossController : MonoBehaviour
             isAttacking = true;
 
             // Start the big attack animation
-            bossAnimator.SetTrigger("Attack");
+            bossAnimator.SetTrigger("BigDamageAttack");
 
             // Start the blackout and delayed kill unless interrupted
             StartCoroutine(BigDamageCoroutine());
@@ -85,6 +121,9 @@ public class FinalBossController : MonoBehaviour
 
     IEnumerator BigDamageCoroutine()
     {
+
+        Debug.Log("Final boss started big damage attack!");
+        
         // Show blackout screen
         blackoutScreen.SetActive(true);
 
