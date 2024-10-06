@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 317350033}
   - component: {fileID: 317350032}
   - component: {fileID: 317350034}
+  - component: {fileID: 317350035}
   m_Layer: 0
   m_Name: FinalBoss
   m_TagString: Enemy
@@ -229,6 +230,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &317350035
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317350031}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.003042555, y: -0.0038033486}
+  serializedVersion: 2
+  m_Radius: 0.17510219
 --- !u!4 &683977948 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5181509898551480796, guid: e596ff02f08c22c4dba8372c4c2b9aa6, type: 3}
