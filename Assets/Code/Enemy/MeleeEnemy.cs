@@ -34,10 +34,10 @@ public class MeleeEnemy : MonoBehaviour
 
         currentHealth = health;
 
-        if(target == null)
+        /*if(target == null)
         {
             target = FindObjectOfType<PlayerController>().GetComponent<Transform>();
-        }
+        }*/
         
     }
 
@@ -47,13 +47,17 @@ public class MeleeEnemy : MonoBehaviour
 
         float movementSpeed = _rb.velocity.sqrMagnitude;
         _animator.SetFloat("speed", movementSpeed);
-        if(speed > 0 )
+        if(movementSpeed > 0.1f )
         {
             _animator.SetFloat("movementX", _rb.velocity.x);
             _animator.SetFloat("movementY", _rb.velocity.y);
         }
 
-        float distance = Vector2.Distance(transform.position, target.position);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            _animator.SetTrigger("attack");
+        }
+        /*float distance = Vector2.Distance(transform.position, target.position);
         RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, (Vector2)transform.forward, distance);
         if(hit.collider == target)
         {
@@ -61,29 +65,29 @@ public class MeleeEnemy : MonoBehaviour
         }
         else
         {
-            if (moveRight)
-            {
-                _rb.AddForce(Vector2.right * speed * Time.deltaTime);
-                if (!isFacingRight)
-                    Flip();
-            }
+            
+        }*/
 
-            if (_rb.position.x >= endPos)
-                moveRight = false;
-
-            if (!moveRight)
-            {
-                _rb.AddForce(-Vector2.right * speed * Time.deltaTime);
-                if (isFacingRight)
-                    Flip();
-            }
-            if (_rb.position.x <= startPos)
-                moveRight = true;
+        if (moveRight)
+        {
+            _rb.AddForce(Vector2.right * speed * Time.deltaTime);
+            if (!isFacingRight)
+                Flip();
         }
 
+        if (_rb.position.x >= endPos)
+            moveRight = false;
+
+        if (!moveRight)
+        {
+            _rb.AddForce(-Vector2.right * speed * Time.deltaTime);
+            if (isFacingRight)
+                Flip();
+        }
+        if (_rb.position.x <= startPos)
+            moveRight = true;
 
 
-        
     }
 
     public void Flip()

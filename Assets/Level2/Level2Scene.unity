@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -302,6 +303,8 @@ GameObject:
   - component: {fileID: 1845435314}
   - component: {fileID: 1845435313}
   - component: {fileID: 1845435315}
+  - component: {fileID: 1845435317}
+  - component: {fileID: 1845435316}
   m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
@@ -654,11 +657,119 @@ TilemapCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!66 &1845435316
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845435311}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1845435315}
+    m_ColliderPaths:
+    - - X: 90000000
+        Y: -10000000
+      - X: 60000000
+        Y: -10000000
+      - X: 60000000
+        Y: -20000000
+      - X: 90000000
+        Y: -20000000
+    - - X: -30000000
+        Y: -30000000
+      - X: -90000000
+        Y: -30000000
+      - X: -90000000
+        Y: -40000000
+      - X: -30000000
+        Y: -40000000
+    - - X: 80000000
+        Y: -30000000
+      - X: -10000000
+        Y: -30000000
+      - X: -10000000
+        Y: -40000000
+      - X: 80000000
+        Y: -40000000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 8.99997, y: -2}
+      - {x: 8.99997, y: -1}
+      - {x: 6, y: -1.0000293}
+      - {x: 6.000029, y: -2}
+    - - {x: 7.9999704, y: -4}
+      - {x: 7.9999704, y: -3}
+      - {x: -1, y: -3.0000293}
+      - {x: -0.99997073, y: -4}
+    - - {x: -3.0000293, y: -4}
+      - {x: -3.0000293, y: -3}
+      - {x: -9, y: -3.0000293}
+      - {x: -8.99997, y: -4}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 1845435311}
+--- !u!50 &1845435317
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845435311}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2094282482
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,8 +782,8 @@ GameObject:
   - component: {fileID: 2094282486}
   - component: {fileID: 2094282485}
   - component: {fileID: 2094282484}
-  - component: {fileID: 2094282488}
   - component: {fileID: 2094282489}
+  - component: {fileID: 2094282490}
   m_Layer: 0
   m_Name: SkeletonEnemy
   m_TagString: Enemy
@@ -693,9 +804,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -706,7 +817,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &2094282485
 Animator:
   serializedVersion: 5
@@ -789,14 +900,33 @@ Transform:
   m_GameObject: {fileID: 2094282482}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.11, y: -2.42, z: 0}
+  m_LocalPosition: {x: 0.215, y: -2.075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &2094282488
-CapsuleCollider2D:
+--- !u!114 &2094282489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094282482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afefeabec999ff640befe6c27912c32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitsToMove: 5
+  speed: 800
+  isFacingRight: 0
+  moveRight: 0
+  health: 0
+  target: {fileID: 374124554}
+  minDistance: 1
+--- !u!60 &2094282490
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -828,27 +958,23 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.25, y: 1}
-  m_Direction: 0
---- !u!114 &2094282489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094282482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afefeabec999ff640befe6c27912c32c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnitsToMove: 5
-  speed: 500
-  isFacingRight: 0
-  moveRight: 0
-  health: 0
-  target: {fileID: 0}
-  minDistance: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.25, y: 1}
+    newSize: {x: 1.25, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.625, y: 0.5}
+      - {x: -0.625, y: -0.0625}
+      - {x: -0.3125, y: -0.5}
+      - {x: 0.625, y: -0.5}
+      - {x: 0.625, y: 0.5}
+  m_UseDelaunayMesh: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
