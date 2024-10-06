@@ -45,12 +45,16 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 1f;
     public LayerMask enemyLayers;
 
+    // Safe position (checkpoint)
+    [SerializeField] private List<Transform> checkpoints;
+
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
         currentHealth = maxHealth;
     }
     // Update is called once per frame
@@ -181,6 +185,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             FinalBossController finalBoss = enemy.GetComponent<FinalBossController>();
+
             if (finalBoss) {
                 finalBoss.TakeDamage(attackDamage);
             }
@@ -199,4 +204,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    // Find the closest checkpoint to the player when falling onto spikes
+    public void ResetToClosestCheckpoint()
+    {
+        Debug.Log("inside resetToclosestcheckpoint function");
+
+        Transform closestCheckpoint = FindClosestCheckpoint();
+        if (closestCheckpoint != null)
+        {
+            Debug.Log("found closest checkpoint");
+            transform.position = closestCheckpoint.position;
+            _rigidbody.velocity = Vector2.zero;  // Stop any momentum
+        }
+    }
+
+    // Find the closest checkpoint from the current player position
+    Transform FindClosestCheckpoint()
+    {
+        Debug.Log("inside FindClosestCheckpoint function");
+        Transform closestCheckpoint = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Transform checkpoint in checkpoints)
+        {
+
+            Debug.Log(checkpoint);
+            float distance = Vector3.Distance(transform.position, checkpoint.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestCheckpoint = checkpoint;
+            }
+        }
+
+        return closestCheckpoint;
+    }
 }
