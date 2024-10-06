@@ -22,6 +22,9 @@ public class MeleeEnemy : MonoBehaviour
     public Transform target;
     public float minDistance;
 
+    public bool isWaiting;
+    public float waitTime;
+
     
     // Start is called before the first frame update
     void Start()
@@ -68,32 +71,66 @@ public class MeleeEnemy : MonoBehaviour
             
         }*/
 
-        if (moveRight)
+        if(!isWaiting)
         {
-            _rb.AddForce(Vector2.right * speed * Time.deltaTime);
+            if (moveRight)
+            {
+                _rb.AddForce(Vector2.right * speed * Time.deltaTime);
+            }
+
+            if (!moveRight)
+            {
+                _rb.AddForce(-Vector2.right * speed * Time.deltaTime);
+            }
+        }
+        
+
+        if (_rb.position.x >= endPos)
+        {
+            StartCoroutine(Wait());
+            moveRight = false;
+            if (isFacingRight)
+                Flip();
+        }
+            
+
+        
+        if (_rb.position.x <= startPos)
+        {
+            StartCoroutine(Wait());
+            moveRight = true;
             if (!isFacingRight)
                 Flip();
         }
 
-        if (_rb.position.x >= endPos)
-            moveRight = false;
 
-        if (!moveRight)
+
+    }
+
+    private void FixedUpdate()
+    {
+        _animator.SetFloat("speed", _rb.velocity.magnitude);
+        if(_rb.velocity.magnitude > 0 )
         {
-            _rb.AddForce(-Vector2.right * speed * Time.deltaTime);
-            if (isFacingRight)
-                Flip();
+            _animator.speed = _rb.velocity.magnitude / 3f;
         }
-        if (_rb.position.x <= startPos)
-            moveRight = true;
-
-
+        else
+        {
+            _animator.speed = 1f;
+        }
     }
 
     public void Flip()
     {
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         isFacingRight = transform.localScale.x > 0;
+    }
+
+    private IEnumerator Wait()
+    {
+        isWaiting = true;
+        yield return new WaitForSeconds(waitTime);
+        isWaiting = false;
     }
 
 }
