@@ -91,7 +91,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueController: {fileID: 0}
-  textDisplayDuration: 2
-  sentences:
-  - I can also make the text follow the player...?
-  - And time isn't frozen??
+  textDisplayDuration: 1
+  sentences: []

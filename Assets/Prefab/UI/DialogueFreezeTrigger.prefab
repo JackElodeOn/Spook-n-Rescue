@@ -91,7 +91,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueController: {fileID: 0}
-  sentences:
-  - Oh boy
-  - look at all of these sentences I can write!
-  - and time is frozen too!
+  sentences: []
