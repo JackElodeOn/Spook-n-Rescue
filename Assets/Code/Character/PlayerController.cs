@@ -190,6 +190,12 @@ public class PlayerController : MonoBehaviour
                 finalBoss.TakeDamage(attackDamage);
             }
             Debug.Log("Hit " + enemy.name);
+
+            MeleeEnemy meleeEnemy = enemy.GetComponent<MeleeEnemy>();
+            if (meleeEnemy)
+            {
+                meleeEnemy.TakeDamage(attackDamage);
+            }
         }
     }
 
