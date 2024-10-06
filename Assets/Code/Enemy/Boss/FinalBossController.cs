@@ -14,6 +14,7 @@ public class FinalBossController : MonoBehaviour
     public PlayerController player;         // Reference to the player
     private bool isAttacking = false;       // To prevent attacks when waiting for a special attack
     private bool hasDoneBigDamageAttack = false; // To ensure big damage attack only happens once
+    public GameObject playerObject;
 
     void Update()
     {
@@ -29,9 +30,10 @@ public class FinalBossController : MonoBehaviour
         if (!isAttacking && !hasDoneBigDamageAttack) // Ensure it's not in the middle of the big damage ability
         {
             // Randomly decide which ability to use
-            int randomAbility = Random.Range(1, 3);  // 1 or 2 for simplicity
+            //int randomAbility = Random.Range(1, 3);  // 1 or 2 for simplicity
 
-            Debug.Log("Final boss started normal attack!");
+            int randomAbility = 2;
+
 
             if (randomAbility == 1)
             {
@@ -54,7 +56,7 @@ public class FinalBossController : MonoBehaviour
             Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
         }
 
-        yield return new WaitForSeconds(5f); // Wait before another ability
+        yield return new WaitForSeconds(2f); // Wait before another ability
         StartAbilities();
     }
 
@@ -63,14 +65,13 @@ public class FinalBossController : MonoBehaviour
     {
         Debug.Log("Final boss started shooting beam!");
 
-        // Play animation if needed
-        bossAnimator.SetTrigger("ShootBeam");
-
         // Instantiate the beam projectile and aim it at the player
         GameObject beam = Instantiate(beamPrefab, beamSpawnPoint.position, Quaternion.identity);
-        beam.GetComponent<EyeBeam>().Initialize(player.transform.position);
+        EyeBeam beamComponent = beam.GetComponent<EyeBeam>();
 
-        yield return new WaitForSeconds(5f); // Wait before another ability
+        beamComponent.Initialize(playerObject.transform.position);
+
+        yield return new WaitForSeconds(2f); // Wait before another ability
         StartAbilities();
     }
 

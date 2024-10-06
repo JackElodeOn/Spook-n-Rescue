@@ -153,7 +153,7 @@ MonoBehaviour:
   isFacingRight: 0
   moveRight: 0
   health: 0
-  target: {fileID: 0}
+  target: {fileID: 1524772905496953386, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
   minDistance: 0
   isWaiting: 0
   waitTime: 4

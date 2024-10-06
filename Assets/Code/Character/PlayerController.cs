@@ -4,10 +4,8 @@ using UnityEngine;
 
 public enum Direction
 {
-    Up = 0,
-    Down = 1,
-    Left = 2,
-    Right = 3
+    Left = 0,
+    Right = 1
 }
 
 public class PlayerController : MonoBehaviour
@@ -27,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     // Health stats
     public int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
 
     // Movement
     private float horizontal;
@@ -43,6 +41,10 @@ public class PlayerController : MonoBehaviour
     // State Tracking
     public Direction facingDirection;
 
+    public int attackDamage = 5;
+    public float attackRange = 1f;
+    public LayerMask enemyLayers;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
 
+        // Jump logic
         if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
         {
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpingPower);
@@ -66,19 +69,20 @@ public class PlayerController : MonoBehaviour
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y * 0.5f);
         }
 
-        //Flip();
-
         float currentSpeed = _rigidbody.velocity.sqrMagnitude;
         _animator.SetFloat("speed", currentSpeed);
+
         if (currentSpeed > 0.1f)
         {
             _animator.SetFloat("movementX", _rigidbody.velocity.x);
             _animator.SetFloat("movementY", _rigidbody.velocity.y);
         }
 
+        // Attack logic
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _animator.SetBool("isAttacking", true);
+            Attack();
         }
 
         // Check if attack animation is playing
@@ -115,7 +119,6 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         bool temp = Physics2D.OverlapCircle(groundCheck.position, checkRadius, platformLayer);
-        Debug.Log(temp);
         return temp;
     }
 
@@ -162,4 +165,28 @@ public class PlayerController : MonoBehaviour
             specialAttackTriggered = true;
         }
     }
+
+    // Atack Logic
+    void Attack()
+    {
+        int facingDirectionIndex = (int)facingDirection;
+
+        Transform attackZone = attackZones[facingDirectionIndex];
+        
+        // Detect enemies in range of attack
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackZone.position, attackRange, enemyLayers);
+
+        // Damage each enemy hit
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            FinalBossController finalBoss = enemy.GetComponent<FinalBossController>();
+            if (finalBoss) {
+                finalBoss.TakeDamage(attackDamage);
+            }
+            Debug.Log("Hit " + enemy.name);
+        }
+    }
+
+
+
 }

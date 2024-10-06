@@ -4,32 +4,53 @@ using UnityEngine;
 
 public class EyeBeam : MonoBehaviour
 {
-    public float speed = 10f;   // Speed of the beam
-    private Vector2 targetPosition;  // The position to which the beam will move
+    private Animator animator;
+    public float speed = 5f;  // Speed of the beam
+    private Vector3 direction;
+    private bool hasHitPlayer = false;
 
-    // Method to initialize the beam's direction
-    public void Initialize(Vector3 playerPosition)
+    private void Start()
     {
-        // Calculate the direction from the beam's current position to the player's position
-        Vector2 direction = (playerPosition - transform.position).normalized;
-
-        // Set the beam's velocity in the direction of the player
-        GetComponent<Rigidbody2D>().velocity = direction * speed;
+        animator = GetComponent<Animator>();
+    }
+    public void Initialize(Vector3 targetPosition)
+    {
+        direction = (targetPosition - transform.position).normalized;
     }
 
-    // This method is called when the beam hits something
+    void Update()
+    {
+        if (!hasHitPlayer)
+        {
+            transform.Translate(direction * speed * Time.deltaTime);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
+        // Check if the beam hits the player
         if (other.CompareTag("Player"))
         {
-            // Example: Deal damage to the player or trigger other effects
-            other.GetComponent<PlayerController>().TakeDamage(10);
-            Destroy(gameObject);  // Destroy the beam after hitting the player
+            hasHitPlayer = true;
+
+            animator.SetTrigger("Die");
+
+            PlayerController player = other.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.TakeDamage(5);  // Damage the player for 5 health
+            }
+
+            StartCoroutine(DestroyAfterAnimation());
         }
-        else if (other.CompareTag("Wall") || other.CompareTag("Obstacle"))
-        {
-            // Destroy the beam if it hits an obstacle
-            Destroy(gameObject);
-        }
+    }
+
+    IEnumerator DestroyAfterAnimation()
+    {
+        // Wait for the die animation to finish
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        // Destroy the beam GameObject
+        Destroy(gameObject);
     }
 }
