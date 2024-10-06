@@ -5,7 +5,7 @@ using TMPro;
 
 public class DialogueController : MonoBehaviour
 {
-    public TextMeshProUGUI DialogueText;
+    public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI continueText;
     private string[] sentences;
     private int index = 0;
@@ -14,56 +14,80 @@ public class DialogueController : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isDialogueActive = false; // Track if the dialogue is active
 
+    // Variables for positioning the UI above the player
+    public Transform player; // Reference to the player's transform
+    public RectTransform dialogueTextUI; // The RectTransform of the dialogue text UI
+    public RectTransform continueTextUI; // The RectTransform of the continue text UI
+    public float heightAbovePlayer = 2.0f; // Height offset above the player
+
     // Start is called before the first frame update
     void Start()
     {
         dialogueSpeed = 0.05f;
-        sentences = new string[3]; // 3 for now
-        sentences[0] = "Oh no...";
-        sentences[1] = "Where have I wandered off to this time...";
-        sentences[2] = "This looks a bit too spooky for me, I hope I can find my girlfriend quickly...";
 
-        DialogueText.alignment = TextAlignmentOptions.Center; // Always center text
+        dialogueText.alignment = TextAlignmentOptions.Center; // Always center text
         continueText.gameObject.SetActive(false); // Hide continue text at start
+        dialogueText.gameObject.SetActive(false); // Hide dialogue text at start
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDialogueActive && Input.GetKeyDown(KeyCode.T))
+        if (sentences != null)
         {
-            if (isTyping) // Check if the sentence is still being animated
+            if (isDialogueActive)
             {
-                // Complete the sentence instantly
-                StopCoroutine(typingCoroutine);
-                DialogueText.maxVisibleCharacters = sentences[index].Length; // Show the full sentence
-                isTyping = false;
-                continueText.gameObject.SetActive(true); // Show continue text after full sentence
-                index++; // Move to the next sentence, since we completed the current one
+                // Reposition the dialogue UI above the player's head
+                RepositionUI();
+
+                if (Input.GetKeyDown(KeyCode.T) && Time.timeScale == 0)  // Only check if time is frozen
+                {
+                    if (isTyping) // Check if the sentence is still being animated
+                    {
+                        // Complete the sentence instantly
+                        StopCoroutine(typingCoroutine);
+                        dialogueText.maxVisibleCharacters = sentences[index].Length; // Show the full sentence
+                        isTyping = false;
+                        continueText.gameObject.SetActive(true); // Show continue text after full sentence
+                        index++; // Move to the next sentence, since we completed the current one
+                    }
+                    else
+                    {
+                        NextSentence(2.0f, true); // Example call, you can customize it later
+                    }
+                }
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.T) && Time.timeScale == 0) // Only start dialogue if time is frozen
             {
-                NextSentence();
+                StartDialogue(true, 2.0f, sentences); // Example call, you can customize it later
             }
         }
+
     }
 
-    public void StartDialogue()
+    public void StartDialogue(bool freezeTime, float displayDuration, string[] dialogue)
     {
+        sentences = dialogue;
+        dialogueText.gameObject.SetActive(true);
         isDialogueActive = true;
-        Time.timeScale = 0; // Pause the game
+
+        if (freezeTime)
+        {
+            Time.timeScale = 0; // Pause the game
+        }
+
         index = 0; // Start from the first sentence
-        NextSentence(); // Begin dialogue
+        NextSentence(displayDuration, freezeTime); // Begin dialogue
     }
 
-    void NextSentence()
+    void NextSentence(float displayDuration, bool freezeTime)
     {
         if (index < sentences.Length)
         {
-            DialogueText.text = sentences[index]; // Set the new sentence
-            DialogueText.maxVisibleCharacters = 0; // Start with no characters visible
+            dialogueText.text = sentences[index]; // Set the new sentence
+            dialogueText.maxVisibleCharacters = 0; // Start with no characters visible
             continueText.gameObject.SetActive(false); // Hide continue text while typing
-            typingCoroutine = StartCoroutine(WriteSentence());
+            typingCoroutine = StartCoroutine(WriteSentence(displayDuration, freezeTime));
         }
         else
         {
@@ -71,26 +95,51 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    IEnumerator WriteSentence()
+    IEnumerator WriteSentence(float displayDuration, bool freezeTime)
     {
         isTyping = true; // Set typing to true at the start of the animation
         int totalCharacters = sentences[index].Length;
 
         for (int i = 0; i <= totalCharacters; i++)
         {
-            DialogueText.maxVisibleCharacters = i; // Reveal characters one by one
+            dialogueText.maxVisibleCharacters = i; // Reveal characters one by one
             yield return new WaitForSecondsRealtime(dialogueSpeed); // Use WaitForSecondsRealtime since Time.timeScale is 0
         }
 
         isTyping = false; // Typing is done
-        continueText.gameObject.SetActive(true); // Show continue text when finished
-        index++; // Move to the next sentence index
+
+        if (freezeTime)
+        {
+            continueText.gameObject.SetActive(true); // Show continue text when finished if frozen
+            index++;
+        }
+        else
+        {
+            yield return new WaitForSeconds(displayDuration); // Wait for the display duration
+            index++;
+            NextSentence(displayDuration, freezeTime); // Automatically move to the next sentence
+        }
     }
 
     void EndDialogue()
     {
         isDialogueActive = false;
-        continueText.gameObject.SetActive(false); // Optionally hide the continue text when done
+        continueText.gameObject.SetActive(false); // Hide continue text when done
+        dialogueText.gameObject.SetActive(false);
+        sentences = null;
         Time.timeScale = 1; // Resume the game
+    }
+
+    void RepositionUI()
+    {
+        if (player != null)
+        {
+            // Get the player's position in world space
+            Vector3 playerWorldPosition = player.position + Vector3.up * heightAbovePlayer;
+
+            // Set the dialogue text UI position directly above the player
+            dialogueTextUI.position = playerWorldPosition;
+            continueTextUI.position = playerWorldPosition - Vector3.up * (0.5f);
+        }
     }
 }
