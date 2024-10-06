@@ -187,6 +187,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    private void OnDrawGizmos()
+    {
+        if (attackZones != null)
+        {
+            foreach (Transform attackZone in attackZones)
+            {
+                Gizmos.DrawWireSphere(attackZone.position, attackRange);
+            }
+        }
+    }
 
 }

@@ -250,8 +250,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackZones:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 253909633782507294}
+  - {fileID: 3863568635060193736}
   keyUp: 119
   keyDown: 0
   keyLeft: 97
@@ -271,7 +271,7 @@ MonoBehaviour:
   attackRange: 1
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!95 &7008450746260359844
 Animator:
   serializedVersion: 5

@@ -25787,11 +25787,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
+      propertyPath: attackZones.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
       propertyPath: attackZones.Array.data[0]
+      value: 
+      objectReference: {fileID: 4237987782534120013}
+    - target: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
+      propertyPath: attackZones.Array.data[1]
       value: 
       objectReference: {fileID: 4237987782534120014}
     - target: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
-      propertyPath: attackZones.Array.data[1]
+      propertyPath: attackZones.Array.data[2]
+      value: 
+      objectReference: {fileID: 4237987782534120014}
+    - target: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
+      propertyPath: attackZones.Array.data[3]
       value: 
       objectReference: {fileID: 4237987782534120013}
     - target: {fileID: 4654296771478415255, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
