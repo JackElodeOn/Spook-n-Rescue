@@ -25,6 +25,7 @@ public class MeleeEnemy : MonoBehaviour
     public bool isWaiting;
     public float waitTime;
 
+    public bool isAttacking;
     
     // Start is called before the first frame update
     void Start()
@@ -55,35 +56,22 @@ public class MeleeEnemy : MonoBehaviour
             _animator.SetFloat("movementX", _rb.velocity.x);
             _animator.SetFloat("movementY", _rb.velocity.y);
         }
-
-        if(Input.GetKeyDown(KeyCode.Space))
+        
+        float distance = Vector2.Distance(transform.position, target.position);
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, (Vector2)transform.forward, distance);
+        if(hit.collider && hit.collider== target)
         {
             _animator.SetTrigger("attack");
-        }
-        /*float distance = Vector2.Distance(transform.position, target.position);
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, (Vector2)transform.forward, distance);
-        if(hit.collider == target)
-        {
-            _rb.AddForce((Vector2)transform.forward * speed * Time.deltaTime);
+            if(!isAttacking)
+            {
+                isAttacking = true;
+            }
         }
         else
         {
-            
-        }*/
-
-        if(!isWaiting)
-        {
-            if (moveRight)
-            {
-                _rb.AddForce(Vector2.right * speed * Time.deltaTime);
-            }
-
-            if (!moveRight)
-            {
-                _rb.AddForce(-Vector2.right * speed * Time.deltaTime);
-            }
+            isAttacking = false;
         }
-        
+
 
         if (_rb.position.x >= endPos)
         {
@@ -92,9 +80,9 @@ public class MeleeEnemy : MonoBehaviour
             if (isFacingRight)
                 Flip();
         }
-            
 
-        
+
+
         if (_rb.position.x <= startPos)
         {
             StartCoroutine(Wait());
@@ -103,21 +91,29 @@ public class MeleeEnemy : MonoBehaviour
                 Flip();
         }
 
+        if (!isWaiting && !isAttacking)
+        {
+            if (moveRight)
+            {
+                _rb.AddForce(Vector2.right * speed * Time.fixedDeltaTime);
+            }
+
+            if (!moveRight)
+            {
+                _rb.AddForce(-Vector2.right * speed * Time.fixedDeltaTime);
+            }
+        }
+
+
+
 
 
     }
 
     private void FixedUpdate()
     {
-        _animator.SetFloat("speed", _rb.velocity.magnitude);
-        if(_rb.velocity.magnitude > 0 )
-        {
-            _animator.speed = _rb.velocity.magnitude / 3f;
-        }
-        else
-        {
-            _animator.speed = 1f;
-        }
+
+        
     }
 
     public void Flip()
