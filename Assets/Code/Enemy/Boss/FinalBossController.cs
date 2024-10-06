@@ -32,7 +32,7 @@ public class FinalBossController : MonoBehaviour
             // Randomly decide which ability to use
             //int randomAbility = Random.Range(1, 3);  // 1 or 2 for simplicity
 
-            int randomAbility = 2;
+            int randomAbility = 0;
 
 
             if (randomAbility == 1)
