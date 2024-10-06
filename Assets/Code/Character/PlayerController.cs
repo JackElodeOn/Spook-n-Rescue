@@ -24,9 +24,14 @@ public class PlayerController : MonoBehaviour
     public KeyCode keyLeft;
     public KeyCode keyRight;
     public Sprite[] sprites;
-    public float jumpForce = 10f;
-    public int jumpCount = 2;
-    public float moveSpeed = 5f;
+
+    private float horizontal;
+    private float speed = 8f;
+    private float jumpingPower = 16f;
+    private bool isFacingRight = true;
+
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask platformLayer;
 
     // State Tracking
     public Direction facingDirection;
@@ -34,6 +39,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -41,19 +47,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // movement
-        if (Input.GetKey(keyUp))
+        // -1, 0, or 1 depending on direction
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
         {
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpForce);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpingPower);
         }
-        if (Input.GetKey(keyLeft))
+
+        if (Input.GetKeyUp(KeyCode.W) && _rigidbody.velocity.y > 0f)
         {
-            _rigidbody.velocity = new Vector2(-moveSpeed, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y * 0.5f);
         }
-        if (Input.GetKey(keyRight))
-        {
-            _rigidbody.velocity = new Vector2(moveSpeed, _rigidbody.velocity.y);
-        }
+
+        Flip();
 
         float currentSpeed = _rigidbody.velocity.sqrMagnitude;
         _animator.SetFloat("speed", currentSpeed);
@@ -78,6 +85,11 @@ public class PlayerController : MonoBehaviour
    
     }
 
+    private void FixedUpdate()
+    {
+        _rigidbody.velocity = new Vector2(horizontal * speed, _rigidbody.velocity.y);
+    }
+
     void LateUpdate()
     {
         for (int i = 0; i < sprites.Length; i++)
@@ -90,28 +102,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private bool IsGrounded()
     {
-        // Check if we collided with ground
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Platforms"))
-        {
-            // Check what is directly below our character's feet
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 0.7f);
-
-            // We might have multiple things beneath our character's feet
-            for (int i = 0; i < hits.Length; i++)
-            {
-                RaycastHit2D hit = hits[i];
-
-                // Check that we collided with ground below our feet
-                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
-                {
-                    // Reset jump count
-                    jumpCount = 2;
-                }
-            }
-        }
-
-        
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, platformLayer);
     }
+
+    private void Flip()
+    {
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
+    }
+
 }
+
