@@ -26,12 +26,13 @@ public class PlayerController : MonoBehaviour
     public Sprite[] sprites;
 
     private float horizontal;
-    private float speed = 8f;
-    private float jumpingPower = 16f;
+    private float speed = 3f;
+    private float jumpingPower = 12f;
     private bool isFacingRight = true;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask platformLayer;
+    private float checkRadius = 0.2f; // The radius of the ground check
 
     // State Tracking
     public Direction facingDirection;
@@ -39,7 +40,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // -1, 0, or 1 depending on direction
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y * 0.5f);
         }
 
-        Flip();
+        //Flip();
 
         float currentSpeed = _rigidbody.velocity.sqrMagnitude;
         _animator.SetFloat("speed", currentSpeed);
@@ -81,8 +80,6 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isAttacking", false); // Reset after animation ends
         }
-
-   
     }
 
     private void FixedUpdate()
@@ -104,9 +101,12 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, platformLayer);
+        bool temp = Physics2D.OverlapCircle(groundCheck.position, checkRadius, platformLayer);
+        Debug.Log(temp);
+        return temp;
     }
 
+    /**
     private void Flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
@@ -117,6 +117,15 @@ public class PlayerController : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+    */
 
+    // Draw the ground check circle in the editor
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+            return;
+
+        Gizmos.color = Color.red; // Choose the color for the gizmo
+        Gizmos.DrawWireSphere(groundCheck.position, checkRadius); // Draw a wireframe circle
+    }
 }
-
