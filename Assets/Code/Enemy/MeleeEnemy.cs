@@ -15,7 +15,7 @@ public class MeleeEnemy : MonoBehaviour
     public bool moveRight;
 
     public int health;
-    private int currentHealth;
+    public int currentHealth;
     private float startPos;
     private float endPos;
     
@@ -26,6 +26,11 @@ public class MeleeEnemy : MonoBehaviour
     public float waitTime;
 
     public bool isAttacking;
+    public float attackRange;
+    public int attackDamage;
+    public bool canAttack;
+    public bool attackCoolDown;
+
     
     // Start is called before the first frame update
     void Start()
@@ -38,10 +43,10 @@ public class MeleeEnemy : MonoBehaviour
 
         currentHealth = health;
 
-        /*if(target == null)
+        if(target == null)
         {
             target = FindObjectOfType<PlayerController>().GetComponent<Transform>();
-        }*/
+        }
         
     }
 
@@ -56,10 +61,10 @@ public class MeleeEnemy : MonoBehaviour
             _animator.SetFloat("movementX", _rb.velocity.x);
             _animator.SetFloat("movementY", _rb.velocity.y);
         }
-        
-        float distance = Vector2.Distance(transform.position, target.position);
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, (Vector2)transform.forward, distance);
-        if(hit.collider && hit.collider== target)
+
+        /*float distance = Vector2.Distance(transform.position, target.position);
+        RaycastHit2D hits = Physics2D.Raycast((Vector2)transform.position, (Vector2)transform.forward, minDistance);
+        if(hits.collider != null && hits.collider.tag=="Player")
         {
             _animator.SetTrigger("attack");
             if(!isAttacking)
@@ -69,50 +74,138 @@ public class MeleeEnemy : MonoBehaviour
         }
         else
         {
+            _animator.ResetTrigger("attack");
             isAttacking = false;
-        }
+        }*/
 
+        LookForPlayer();
 
-        if (_rb.position.x >= endPos)
+        EnemyMovement();
+        
+
+    }
+
+    void EnemyMovement()
+    {
+        if (!isAttacking)
         {
-            StartCoroutine(Wait());
-            moveRight = false;
-            if (isFacingRight)
-                Flip();
-        }
-
-
-
-        if (_rb.position.x <= startPos)
-        {
-            StartCoroutine(Wait());
-            moveRight = true;
-            if (!isFacingRight)
-                Flip();
-        }
-
-        if (!isWaiting && !isAttacking)
-        {
-            if (moveRight)
+            if (!isWaiting)
             {
-                _rb.AddForce(Vector2.right * speed * Time.fixedDeltaTime);
+                if (moveRight)
+                {
+                    _rb.AddForce(Vector2.right * speed * Time.deltaTime);
+                }
+
+                if (!moveRight)
+                {
+                    _rb.AddForce(-Vector2.right * speed * Time.deltaTime);
+                }
+
+
+            }
+            if (_rb.position.x >= endPos)
+            {
+                StartCoroutine(Wait());
+                moveRight = false;
+                if (isFacingRight)
+                    Flip();
             }
 
-            if (!moveRight)
+
+
+            if (_rb.position.x <= startPos)
             {
-                _rb.AddForce(-Vector2.right * speed * Time.fixedDeltaTime);
+                StartCoroutine(Wait());
+                moveRight = true;
+                if (!isFacingRight)
+                    Flip();
+            }
+        }
+        
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    void Attack()
+    {
+        _animator.SetTrigger("attack");
+        if (!isAttacking)
+        {
+            isAttacking = true;
+        }
+
+        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        foreach (Collider2D hit in hitPlayer)
+        {
+            if (hit.tag == "Player")
+            {
+                PlayerController player = hit.GetComponent<PlayerController>();
+                player.TakeDamage(attackDamage);
+                Debug.Log("Hit Player");
+            }
+
+        }
+
+    }
+    void LookForPlayer()
+    {
+        //precompute raysettings
+        Vector3 start = transform.position;
+        Vector3 direction = target.transform.position - transform.position;
+        direction.Normalize();
+
+        float distance = minDistance;
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(start, direction, distance);
+        bool playerFound = false;
+
+        for (int it = 0; it < hits.Length; it++)
+        {
+            if (hits[it].collider != null && hits[it].collider.tag == "Player")
+            {
+                playerFound = true;
             }
         }
 
-
-
-
-
+        //draw ray in editor
+        if (playerFound)
+        {
+            if(canAttack)
+            {
+                Attack();
+            }
+            Debug.DrawLine(start, start + (direction * distance), Color.green, 2f, false);
+        }
+        else
+        {
+            _animator.ResetTrigger("attack");
+            isAttacking = false;
+            Debug.DrawLine(start, start + (direction * distance), Color.red, 2f, false);
+        }
     }
 
     private void FixedUpdate()
     {
-
+        _animator.SetFloat("speed", _rb.velocity.magnitude);
+        if (_rb.velocity.magnitude > 0)
+        {
+            _animator.speed = _rb.velocity.magnitude / 3f;
+        }
+        else
+        {
+            _animator.speed = 1f;
+        }
         
     }
 

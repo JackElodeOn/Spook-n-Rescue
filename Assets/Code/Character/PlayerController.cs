@@ -45,12 +45,16 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 1f;
     public LayerMask enemyLayers;
 
+    // Safe position (checkpoint)
+    [SerializeField] private List<Transform> checkpoints;
+
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
         currentHealth = maxHealth;
     }
     // Update is called once per frame
@@ -145,6 +149,18 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        Debug.Log("Player is dead!");
+        _animator.SetTrigger("Die");
+
+        StartCoroutine(DestroyAfterDelay());
+    }
+
+    IEnumerator DestroyAfterDelay()
+    {
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(2f);
+
+        // Destroy the GameObject
         Destroy(gameObject);
     }
 
@@ -180,10 +196,16 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             FinalBossController finalBoss = enemy.GetComponent<FinalBossController>();
+
             if (finalBoss) {
                 finalBoss.TakeDamage(attackDamage);
             }
-            Debug.Log("Hit " + enemy.name);
+
+            MeleeEnemy meleeEnemy = enemy.GetComponent<MeleeEnemy>();
+            if (meleeEnemy)
+            {
+                meleeEnemy.TakeDamage(attackDamage);
+            }
         }
     }
 
@@ -198,4 +220,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    // Find the closest checkpoint to the player when falling onto spikes
+    public void ResetToClosestCheckpoint()
+    {
+        Transform closestCheckpoint = FindClosestCheckpoint();
+        if (closestCheckpoint != null)
+        {
+            transform.position = closestCheckpoint.position;
+            _rigidbody.velocity = Vector2.zero;  // Stop any momentum
+        }
+    }
+
+    // Find the closest checkpoint from the current player position
+    Transform FindClosestCheckpoint()
+    {
+        Transform closestCheckpoint = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Transform checkpoint in checkpoints)
+        {
+
+            Debug.Log(checkpoint);
+            float distance = Vector3.Distance(transform.position, checkpoint.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestCheckpoint = checkpoint;
+            }
+        }
+
+        return closestCheckpoint;
+    }
 }
