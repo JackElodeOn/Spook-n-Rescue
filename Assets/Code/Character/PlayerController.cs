@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private float horizontal;
     private float speed = 3f;
     private float jumpingPower = 12f;
-    private bool isFacingRight = true;
 
     public bool specialAttackTriggered = false;
 
@@ -120,18 +119,6 @@ public class PlayerController : MonoBehaviour
         return temp;
     }
 
-    /**
-    private void Flip()
-    {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
-    }
-    */
 
     // Draw the ground check circle in the editor
     private void OnDrawGizmosSelected()
