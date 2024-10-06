@@ -15,30 +15,6 @@ public class FinalBossController : MonoBehaviour
     private bool isAttacking = false;       // To prevent attacks when waiting for a special attack
     private bool hasDoneBigDamageAttack = false; // To ensure big damage attack only happens once
 
-    void Start()
-    {
-        bossAnimator = GetComponent<Animator>();
-
-        // Ensure the FinalBoss is active in the scene
-        if (!gameObject.activeInHierarchy)
-        {
-            gameObject.SetActive(true);  // Activate the boss if it's inactive at the start
-            Debug.Log("FinalBoss is manually activated.");
-        }
-
-        // Initialize variables
-        isAttacking = false;  // Ensure the boss is not in the middle of an attack at the start
-        hasDoneBigDamageAttack = false; // The big damage attack hasn't been triggered yet
-
-        // Optional: Start the boss in an idle or neutral state if needed
-        if (bossAnimator != null)
-        {
-            bossAnimator.SetTrigger("Boss_Dormant"); // Assuming an idle state exists in the Animator
-        }
-
-        Debug.Log("FinalBoss has been initialized and is ready for the fight.");
-    }
-
     void Update()
     {
         if (bossHealth <= 0)
@@ -50,12 +26,6 @@ public class FinalBossController : MonoBehaviour
     // Method for the boss's two normal abilities
     public void StartAbilities()
     {
-        if (!gameObject.activeInHierarchy)
-        {
-            Debug.LogError("FinalBoss is inactive! Cannot start abilities.");
-            return;
-        }
-
         if (!isAttacking && !hasDoneBigDamageAttack) // Ensure it's not in the middle of the big damage ability
         {
             // Randomly decide which ability to use
