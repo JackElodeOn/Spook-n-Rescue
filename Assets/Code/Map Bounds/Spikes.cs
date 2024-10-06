@@ -19,7 +19,10 @@ public class Spikes : MonoBehaviour
 
                 Debug.Log("Take player back to reseet point.");
                 // Reset the player to the closest checkpoint
-                player.ResetToClosestCheckpoint();
+                if(player.currentHealth > 0)
+                {
+                    player.ResetToClosestCheckpoint();
+                }    
             }
         }
     }

@@ -150,6 +150,17 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         Debug.Log("Player is dead!");
+        _animator.SetTrigger("Die");
+
+        StartCoroutine(DestroyAfterDelay());
+    }
+
+    IEnumerator DestroyAfterDelay()
+    {
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(2f);
+
+        // Destroy the GameObject
         Destroy(gameObject);
     }
 
@@ -189,7 +200,6 @@ public class PlayerController : MonoBehaviour
             if (finalBoss) {
                 finalBoss.TakeDamage(attackDamage);
             }
-            Debug.Log("Hit " + enemy.name);
 
             MeleeEnemy meleeEnemy = enemy.GetComponent<MeleeEnemy>();
             if (meleeEnemy)
@@ -214,12 +224,9 @@ public class PlayerController : MonoBehaviour
     // Find the closest checkpoint to the player when falling onto spikes
     public void ResetToClosestCheckpoint()
     {
-        Debug.Log("inside resetToclosestcheckpoint function");
-
         Transform closestCheckpoint = FindClosestCheckpoint();
         if (closestCheckpoint != null)
         {
-            Debug.Log("found closest checkpoint");
             transform.position = closestCheckpoint.position;
             _rigidbody.velocity = Vector2.zero;  // Stop any momentum
         }
@@ -228,7 +235,6 @@ public class PlayerController : MonoBehaviour
     // Find the closest checkpoint from the current player position
     Transform FindClosestCheckpoint()
     {
-        Debug.Log("inside FindClosestCheckpoint function");
         Transform closestCheckpoint = null;
         float closestDistance = Mathf.Infinity;
 
