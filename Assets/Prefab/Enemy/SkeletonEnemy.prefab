@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7936894913603967245}
   - component: {fileID: 4338609308195780318}
   - component: {fileID: 634778009649770329}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SkeletonEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -122,9 +122,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 1.1816406
-  m_LinearDrag: 2
+  m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -148,16 +148,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afefeabec999ff640befe6c27912c32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitsToMove: 3
-  speed: 500
+  UnitsToMove: 6
+  speed: 800
   isFacingRight: 0
   moveRight: 0
-  health: 0
-  target: {fileID: 1524772905496953386, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
-  minDistance: 0
+  health: 100
+  currentHealth: 0
+  target: {fileID: 0}
+  minDistance: 0.8
   isWaiting: 0
   waitTime: 4
   isAttacking: 0
+  attackRange: 1
+  attackDamage: 10
+  attackCoolDown: 1
+  attacked: 0
 --- !u!60 &634778009649770329
 PolygonCollider2D:
   m_ObjectHideFlags: 0

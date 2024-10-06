@@ -28,8 +28,8 @@ public class MeleeEnemy : MonoBehaviour
     public bool isAttacking;
     public float attackRange;
     public int attackDamage;
-    public bool canAttack;
-    public bool attackCoolDown;
+    public float attackCoolDown;
+    public float attacked;
 
     
     // Start is called before the first frame update
@@ -81,7 +81,7 @@ public class MeleeEnemy : MonoBehaviour
         LookForPlayer();
 
         EnemyMovement();
-        
+        attacked += Time.deltaTime;
 
     }
 
@@ -139,23 +139,31 @@ public class MeleeEnemy : MonoBehaviour
 
     void Attack()
     {
-        _animator.SetTrigger("attack");
-        if (!isAttacking)
+        
+        if (attacked >= attackCoolDown)
         {
+            _animator.SetTrigger("attack");
             isAttacking = true;
-        }
-
-        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(transform.position, attackRange);
-        foreach (Collider2D hit in hitPlayer)
-        {
-            if (hit.tag == "Player")
+            Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(transform.position, attackRange);
+            foreach (Collider2D hit in hitPlayer)
             {
-                PlayerController player = hit.GetComponent<PlayerController>();
-                player.TakeDamage(attackDamage);
-                Debug.Log("Hit Player");
+                if (hit.tag == "Player")
+                {
+                    PlayerController player = hit.GetComponent<PlayerController>();
+                    player.TakeDamage(attackDamage);
+                    Debug.Log("Hit Player");
+                }
+
             }
 
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            if ((stateInfo.IsName("AttackLeft") || stateInfo.IsName("AttackRight"))  && stateInfo.normalizedTime >= 1.0f)
+            {
+                _animator.SetBool("isAttacking", false); // Reset after animation ends
+            }
+            attacked = 0;
         }
+        
 
     }
     void LookForPlayer()
@@ -181,10 +189,7 @@ public class MeleeEnemy : MonoBehaviour
         //draw ray in editor
         if (playerFound)
         {
-            if(canAttack)
-            {
-                Attack();
-            }
+            Attack();
             Debug.DrawLine(start, start + (direction * distance), Color.green, 2f, false);
         }
         else

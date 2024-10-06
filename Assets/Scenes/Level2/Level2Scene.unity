@@ -7436,42 +7436,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2558797296943422713, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4338609308195780318, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: speed
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 4338609308195780318, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4338609308195780318, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: UnitsToMove
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4338609308195780318, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: minDistance
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7936894913603967245, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: m_Mass
-      value: 1.1816406
-      objectReference: {fileID: 0}
-    - target: {fileID: 7936894913603967245, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: m_LinearDrag
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7936894913603967245, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: m_UseAutoMass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7936894913603967245, guid: 37442d4844df2e64fb8595edfc7f3218, type: 3}
-      propertyPath: m_GravityScale
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
