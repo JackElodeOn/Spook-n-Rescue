@@ -17,6 +17,7 @@ public class FinalBossController : MonoBehaviour
     private bool hasDoneBigDamageAttack = false; // To ensure big damage attack only happens once
     public GameObject playerObject;
     public SpriteRenderer spriteRenderer;
+    public PrincessSceneBlock princessSceneBlock;
 
     void Update()
     {
@@ -131,6 +132,11 @@ public class FinalBossController : MonoBehaviour
     {
         bossAnimator.SetTrigger("Die");
         yield return new WaitForSeconds(2f); // Play death animation for 2 seconds
+
+        if(princessSceneBlock != null)
+        {
+            princessSceneBlock.bossIsDead = true;
+        }
 
         // Destroy the boss after the death animation
         Destroy(gameObject);
