@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuController : MonoBehaviour
+public class Exit : MonoBehaviour
 {
-    public static MenuController instance;
-    public GameObject mainMenu;
-    private void Awake()
-    {
-        instance = this;
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +17,11 @@ public class MenuController : MonoBehaviour
         
     }
 
-    public void StartGame()
+    void OnTriggerEnter2D(Collider2D col)
     {
-        SceneManager.LoadScene("Level1Scene");
+        if (col.gameObject.tag == "Player")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
-
 }

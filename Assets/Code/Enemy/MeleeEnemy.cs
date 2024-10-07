@@ -32,8 +32,7 @@ public class MeleeEnemy : MonoBehaviour
     public float attackCoolDown;
     public float attacked;
 
-    public LayerMask enemyLayers;
-    public Vector2 point;
+    private Vector2 point;
 
     // Start is called before the first frame update
     void Start()
