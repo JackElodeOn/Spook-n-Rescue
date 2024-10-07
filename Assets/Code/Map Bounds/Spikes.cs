@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spikes : MonoBehaviour
 {
-    public int damage = 30;  // Damage the spikes will do to the player
+    public int damage = 50;  // Damage the spikes will do to the player
 
     private void OnTriggerEnter2D(Collider2D other)
     {

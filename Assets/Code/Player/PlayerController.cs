@@ -173,16 +173,25 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player is dead!");
         _animator.SetTrigger("Die");
 
-        // StartCoroutine(DestroyAfterDelay());
+        StartCoroutine(DestroyAfterDelay());
     }
 
     IEnumerator DestroyAfterDelay()
     {
         // Wait for 2 seconds
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+
+        // Respawn at the closest checkpoint
+        ResetToClosestCheckpoint();
+        currentHealth = maxHealth;
+        if (healthUIController != null)
+        {
+            healthUIController.UpdateHealthText(currentHealth);
+        }
+        _animator.SetTrigger("Respawn");
 
         // Destroy the GameObject
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     public void Heal(int amount)
