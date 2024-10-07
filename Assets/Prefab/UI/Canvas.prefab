@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 6616151570814747013}
   - component: {fileID: 5233024869923345396}
   m_Layer: 5
-  m_Name: TextBackgroundImage
+  m_Name: DialogueTextBackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 1588563277433828785}
   - component: {fileID: 3291844280834785465}
   m_Layer: 5
-  m_Name: TextBackgroundImage
+  m_Name: ContinueInstructionBackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
