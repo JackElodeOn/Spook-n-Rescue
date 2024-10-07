@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum Direction
 {
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayers;
 
     private bool canPerformSpecialAttack = false;
+    public bool isBigDamageAttackActive = false;
 
     // Safe position (checkpoint)
     [SerializeField] private List<Transform> checkpoints;
@@ -172,8 +174,15 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player is dead!");
         _animator.SetTrigger("Die");
-
-        StartCoroutine(DestroyAfterDelay());
+        if (isBigDamageAttackActive)
+        {
+            Debug.Log("scene reloaded");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            StartCoroutine(DestroyAfterDelay());
+        }
     }
 
     IEnumerator DestroyAfterDelay()
@@ -189,9 +198,7 @@ public class PlayerController : MonoBehaviour
             healthUIController.UpdateHealthText(currentHealth);
         }
         _animator.SetTrigger("Respawn");
-
-        // Destroy the GameObject
-        // Destroy(gameObject);
+ 
     }
 
     public void Heal(int amount)

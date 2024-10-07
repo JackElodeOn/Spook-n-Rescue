@@ -96,13 +96,15 @@ public class FinalBossController : MonoBehaviour
 
         yield return new WaitForSeconds(3f); // Give 3 seconds to perform the special attack
 
-        // If the player doesn't do the special attack, kill them
+        // If the player doesn't do the special attack, kill him
         if (!player.specialAttackTriggered)
         {
+            player.isBigDamageAttackActive = true;
             player.Die();
         }
         else
         {
+            player.isBigDamageAttackActive = false;
             CancelBigDamageAttack();
         }
     }
