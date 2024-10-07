@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1847548366251952900}
   - component: {fileID: 2221588066286205817}
   - component: {fileID: 8062561924146350729}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6302649330316401871}
   - component: {fileID: 5817046378020420536}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Boss vcam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 6986172495106102528}
   - component: {fileID: 8412155259554007954}
   - component: {fileID: 7448306473766893048}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FinalBoss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -325,3 +325,4 @@ MonoBehaviour:
   blackoutScreen: {fileID: 0}
   player: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
   playerObject: {fileID: 1855256446914668830, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
+  spriteRenderer: {fileID: 0}

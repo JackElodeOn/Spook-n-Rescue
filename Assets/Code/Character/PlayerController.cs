@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     // Safe position (checkpoint)
     [SerializeField] private List<Transform> checkpoints;
 
+    private HealthUIController healthUIController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +60,16 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         currentHealth = maxHealth;
+
+        // Find and reference the HealthUIController
+        healthUIController = FindObjectOfType<HealthUIController>();
+        // Initialize the UI with the current health
+        if (healthUIController != null)
+        {
+            healthUIController.UpdateHealthText(currentHealth);
+        }
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -143,6 +154,14 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage;
 
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        
+        // Update the UI with the new health
+        if (healthUIController != null)
+        {
+            healthUIController.UpdateHealthText(currentHealth);
+        }
+
         if (currentHealth <= 0)
         {
             Die();
@@ -174,6 +193,15 @@ public class PlayerController : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Update the UI with the new health
+        if (healthUIController != null)
+        {
+            healthUIController.UpdateHealthText(currentHealth);
+        }
+
     }
 
     public void EnableSpecialAttack()
