@@ -123053,7 +123053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8802977034012464101, guid: 317131f8a36344b4e86154e51a4b4738, type: 3}
       propertyPath: sentences.Array.data[0]
-      value: What in world are you?
+      value: What in the world are you?
       objectReference: {fileID: 0}
     - target: {fileID: 8802977034012464101, guid: 317131f8a36344b4e86154e51a4b4738, type: 3}
       propertyPath: sentences.Array.data[1]
@@ -123315,7 +123315,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 17f22f4cece23ca4db1483469cc8081c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.15
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 1
   Mute: 0
