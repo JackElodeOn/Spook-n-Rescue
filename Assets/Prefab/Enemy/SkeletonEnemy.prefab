@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7936894913603967245}
   - component: {fileID: 4338609308195780318}
   - component: {fileID: 634778009649770329}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: SkeletonEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -166,6 +166,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 0
+  point: {x: 0, y: 0}
 --- !u!60 &634778009649770329
 PolygonCollider2D:
   m_ObjectHideFlags: 0
