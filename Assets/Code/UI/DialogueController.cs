@@ -7,6 +7,10 @@ public class DialogueController : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI continueText;
+
+    public RectTransform dialogueUIImage; // Renamed to make it clear for dialogue text
+    public RectTransform continueUIImage; // New variable for continue text UIImage
+
     private string[] sentences;
     private int index = 0;
     private float dialogueSpeed;
@@ -16,8 +20,6 @@ public class DialogueController : MonoBehaviour
 
     // Variables for positioning the UI above the player
     public Transform player; // Reference to the player's transform
-    public RectTransform dialogueTextUI; // The RectTransform of the dialogue text UI
-    public RectTransform continueTextUI; // The RectTransform of the continue text UI
     public float heightAbovePlayer = 2.0f; // Height offset above the player
 
     // Start is called before the first frame update
@@ -26,8 +28,8 @@ public class DialogueController : MonoBehaviour
         dialogueSpeed = 0.05f;
 
         dialogueText.alignment = TextAlignmentOptions.Center; // Always center text
-        continueText.gameObject.SetActive(false); // Hide continue text at start
-        dialogueText.gameObject.SetActive(false); // Hide dialogue text at start
+        continueUIImage.gameObject.SetActive(false); // Hide continue UIImage at start
+        dialogueUIImage.gameObject.SetActive(false); // Hide dialogue UIImage at start
     }
 
     // Update is called once per frame
@@ -48,7 +50,7 @@ public class DialogueController : MonoBehaviour
                         StopCoroutine(typingCoroutine);
                         dialogueText.maxVisibleCharacters = sentences[index].Length; // Show the full sentence
                         isTyping = false;
-                        continueText.gameObject.SetActive(true); // Show continue text after full sentence
+                        continueUIImage.gameObject.SetActive(true); // Show continue UIImage after full sentence
                         index++; // Move to the next sentence, since we completed the current one
                     }
                     else
@@ -68,13 +70,16 @@ public class DialogueController : MonoBehaviour
     public void StartDialogue(bool freezeTime, float displayDuration, string[] dialogue)
     {
         sentences = dialogue;
-        dialogueText.gameObject.SetActive(true);
         isDialogueActive = true;
 
         if (freezeTime)
         {
             Time.timeScale = 0; // Pause the game
         }
+
+        RepositionUI(); // Reposition first, then set active
+
+        dialogueUIImage.gameObject.SetActive(true); // Activate the dialogue UIImage
 
         index = 0; // Start from the first sentence
         NextSentence(displayDuration, freezeTime); // Begin dialogue
@@ -86,7 +91,7 @@ public class DialogueController : MonoBehaviour
         {
             dialogueText.text = sentences[index]; // Set the new sentence
             dialogueText.maxVisibleCharacters = 0; // Start with no characters visible
-            continueText.gameObject.SetActive(false); // Hide continue text while typing
+            continueUIImage.gameObject.SetActive(false); // Hide continue UIImage while typing
             typingCoroutine = StartCoroutine(WriteSentence(displayDuration, freezeTime));
         }
         else
@@ -110,7 +115,7 @@ public class DialogueController : MonoBehaviour
 
         if (freezeTime)
         {
-            continueText.gameObject.SetActive(true); // Show continue text when finished if frozen
+            continueUIImage.gameObject.SetActive(true); // Show continue UIImage when finished if frozen
             index++;
         }
         else
@@ -124,8 +129,8 @@ public class DialogueController : MonoBehaviour
     void EndDialogue()
     {
         isDialogueActive = false;
-        continueText.gameObject.SetActive(false); // Hide continue text when done
-        dialogueText.gameObject.SetActive(false);
+        continueUIImage.gameObject.SetActive(false); // Hide continue UIImage when done
+        dialogueUIImage.gameObject.SetActive(false); // Hide dialogue UIImage when done
         sentences = null;
         Time.timeScale = 1; // Resume the game
     }
@@ -137,9 +142,9 @@ public class DialogueController : MonoBehaviour
             // Get the player's position in world space
             Vector3 playerWorldPosition = player.position + Vector3.up * heightAbovePlayer;
 
-            // Set the dialogue text UI position directly above the player
-            dialogueTextUI.position = playerWorldPosition;
-            continueTextUI.position = playerWorldPosition - Vector3.up * (0.5f);
+            // Set the UIImage positions directly above the player
+            dialogueUIImage.position = playerWorldPosition;
+            continueUIImage.position = playerWorldPosition - Vector3.up;
         }
     }
 }
