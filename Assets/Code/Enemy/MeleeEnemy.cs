@@ -10,7 +10,7 @@ public class MeleeEnemy : MonoBehaviour
     Animator _animator;
 
     public int UnitsToMove = 5;
-    
+
     public int speed = 500;
     public bool isFacingRight;
     public bool moveRight;
@@ -19,7 +19,7 @@ public class MeleeEnemy : MonoBehaviour
     public int currentHealth;
     private float startPos;
     private float endPos;
-    
+
     public Transform target;
     public float minDistance;
 
@@ -45,11 +45,11 @@ public class MeleeEnemy : MonoBehaviour
 
         currentHealth = health;
 
-        if(target == null)
+        if (target == null)
         {
             target = FindObjectOfType<PlayerController>().GetComponent<Transform>();
         }
-        
+
     }
 
     // Update is called once per frame
@@ -58,7 +58,7 @@ public class MeleeEnemy : MonoBehaviour
 
         float movementSpeed = _rb.velocity.sqrMagnitude;
         _animator.SetFloat("speed", movementSpeed);
-        if(movementSpeed > 0.1f )
+        if (movementSpeed > 0.1f)
         {
             _animator.SetFloat("movementX", _rb.velocity.x);
             _animator.SetFloat("movementY", _rb.velocity.y);
@@ -123,13 +123,13 @@ public class MeleeEnemy : MonoBehaviour
                     Flip();
             }
         }
-        
+
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -141,13 +141,13 @@ public class MeleeEnemy : MonoBehaviour
 
     void Attack()
     {
-        
+
         if (attacked >= attackCoolDown)
         {
             _animator.SetTrigger("attack");
             isAttacking = true;
-            
-            if(isFacingRight)
+
+            if (isFacingRight)
             {
                 point = new Vector2(transform.position.x + attackRange, transform.position.y);
             }
@@ -156,7 +156,7 @@ public class MeleeEnemy : MonoBehaviour
                 point = new Vector2(transform.position.x - attackRange, transform.position.y);
 
             }
-            Collider2D[] hitPlayer = Physics2D.OverlapCapsuleAll(point, new Vector2(attackRange, attackRange/2), CapsuleDirection2D.Horizontal,0);
+            Collider2D[] hitPlayer = Physics2D.OverlapCapsuleAll(point, new Vector2(attackRange, attackRange / 2), CapsuleDirection2D.Horizontal, 0);
             //Debug.DrawLine(transform.position, new Vector3(point.x, point.y, 0), UnityEngine.Color.yellow);
             foreach (Collider2D hit in hitPlayer)
             {
@@ -170,21 +170,30 @@ public class MeleeEnemy : MonoBehaviour
             }
 
             AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-            if ((stateInfo.IsName("AttackLeft") || stateInfo.IsName("AttackRight"))  && stateInfo.normalizedTime >= 1.0f)
+            if ((stateInfo.IsName("AttackLeft") || stateInfo.IsName("AttackRight")) && stateInfo.normalizedTime >= 1.0f)
             {
                 _animator.SetBool("isAttacking", false); // Reset after animation ends
             }
             attacked = 0;
         }
-        
+
 
     }
     void LookForPlayer()
     {
-        //precompute raysettings
+        // Precompute ray settings
         Vector3 start = transform.position;
-        Vector3 direction = target.transform.position - transform.position;
-        direction.Normalize();
+        Vector3 direction;
+
+        // Adjust direction based on if the enemy is facing right or not
+        if (isFacingRight)
+        {
+            direction = Vector2.right;
+        }
+        else
+        {
+            direction = Vector2.left;
+        }
 
         float distance = minDistance;
 
@@ -199,17 +208,17 @@ public class MeleeEnemy : MonoBehaviour
             }
         }
 
-        //draw ray in editor
+        // Draw ray in the editor
         if (playerFound)
         {
             Attack();
-            //Debug.DrawLine(start, start + (direction * distance), UnityEngine.Color.green, 2f, false);
+            // Debug.DrawLine(start, start + (direction * distance), UnityEngine.Color.green, 2f, false);
         }
         else
         {
             _animator.ResetTrigger("attack");
             isAttacking = false;
-            //Debug.DrawLine(start, start + (direction * distance), UnityEngine.Color.red, 2f, false);
+            // Debug.DrawLine(start, start + (direction * distance), UnityEngine.Color.red, 2f, false);
         }
     }
 
@@ -224,7 +233,7 @@ public class MeleeEnemy : MonoBehaviour
         {
             _animator.speed = 1f;
         }
-        
+
     }
 
     public void Flip()
