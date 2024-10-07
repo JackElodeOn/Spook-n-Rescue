@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 1f;
     public LayerMask enemyLayers;
 
+    private bool canPerformSpecialAttack = false;
+
     // Safe position (checkpoint)
     [SerializeField] private List<Transform> checkpoints;
 
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Perform the special attack for the final boss
-        if (Input.GetKeyDown(KeyCode.P))
+        if (canPerformSpecialAttack && Input.GetKeyDown(KeyCode.P))
         {
             PerformSpecialAttack();
         }
@@ -174,10 +176,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void EnableSpecialAttack()
+    {
+        // Enable the special attack
+        canPerformSpecialAttack = true;
+        Debug.Log("Special Attack enabled.");
+    }
+
     public void PerformSpecialAttack()
     {
-        if (!specialAttackTriggered)
+        if (!specialAttackTriggered && canPerformSpecialAttack)
         {
+            Debug.Log("perform special attack");
             specialAttackTriggered = true;
         }
     }
