@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player is dead!");
         _animator.SetTrigger("Die");
 
-        StartCoroutine(DestroyAfterDelay());
+        // StartCoroutine(DestroyAfterDelay());
     }
 
     IEnumerator DestroyAfterDelay()
@@ -240,8 +240,6 @@ public class PlayerController : MonoBehaviour
 
         foreach (Transform checkpoint in checkpoints)
         {
-
-            Debug.Log(checkpoint);
             float distance = Vector3.Distance(transform.position, checkpoint.position);
             if (distance < closestDistance)
             {
