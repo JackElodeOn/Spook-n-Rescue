@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
     public static MenuController instance;
-    public GameObject mainMenu;
     private void Awake()
     {
         instance = this;
@@ -26,6 +25,11 @@ public class MenuController : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("Level1Scene");
+    }
+
+    public void BackToMain()
+    {
+        SceneManager.LoadScene("StartMenu");
     }
 
 }
