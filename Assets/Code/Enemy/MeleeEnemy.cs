@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,7 +32,9 @@ public class MeleeEnemy : MonoBehaviour
     public float attackCoolDown;
     public float attacked;
 
-    
+    public LayerMask enemyLayers;
+    public Vector2 point;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -144,7 +147,18 @@ public class MeleeEnemy : MonoBehaviour
         {
             _animator.SetTrigger("attack");
             isAttacking = true;
-            Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(transform.position, attackRange);
+            
+            if(isFacingRight)
+            {
+                point = new Vector2(transform.position.x + attackRange, transform.position.y);
+            }
+            else
+            {
+                point = new Vector2(transform.position.x - attackRange, transform.position.y);
+
+            }
+            Collider2D[] hitPlayer = Physics2D.OverlapCapsuleAll(point, new Vector2(attackRange, attackRange/2), CapsuleDirection2D.Horizontal,0);
+            //Debug.DrawLine(transform.position, new Vector3(point.x, point.y, 0), UnityEngine.Color.yellow);
             foreach (Collider2D hit in hitPlayer)
             {
                 if (hit.tag == "Player")
@@ -190,13 +204,13 @@ public class MeleeEnemy : MonoBehaviour
         if (playerFound)
         {
             Attack();
-            Debug.DrawLine(start, start + (direction * distance), Color.green, 2f, false);
+            //Debug.DrawLine(start, start + (direction * distance), UnityEngine.Color.green, 2f, false);
         }
         else
         {
             _animator.ResetTrigger("attack");
             isAttacking = false;
-            Debug.DrawLine(start, start + (direction * distance), Color.red, 2f, false);
+            //Debug.DrawLine(start, start + (direction * distance), UnityEngine.Color.red, 2f, false);
         }
     }
 
