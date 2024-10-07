@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1266707865
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 108494743, guid: ccae785b444422743ba54005900be760, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -163,10 +163,6 @@ MonoBehaviour:
   attackDamage: 10
   attackCoolDown: 1
   attacked: 0
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  point: {x: 0, y: 0}
 --- !u!60 &634778009649770329
 PolygonCollider2D:
   m_ObjectHideFlags: 0
