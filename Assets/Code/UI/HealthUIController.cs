@@ -15,6 +15,6 @@ public class HealthUIController : MonoBehaviour
     // Method to update the health text display
     public void UpdateHealthText(int health)
     {
-        healthText.text = "HP: " + health;
+        healthText.text = "hp: " + health;
     }
 }
