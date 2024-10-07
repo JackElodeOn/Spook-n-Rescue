@@ -17,7 +17,6 @@ public class Spikes : MonoBehaviour
                 // Deal damage to the player
                 player.TakeDamage(damage);
 
-                Debug.Log("Take player back to reseet point.");
                 // Reset the player to the closest checkpoint
                 if(player.currentHealth > 0)
                 {

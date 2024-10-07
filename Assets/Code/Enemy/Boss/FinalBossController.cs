@@ -16,6 +16,7 @@ public class FinalBossController : MonoBehaviour
     private bool isAttacking = false;       // To prevent attacks when waiting for a special attack
     private bool hasDoneBigDamageAttack = false; // To ensure big damage attack only happens once
     public GameObject playerObject;
+    public SpriteRenderer spriteRenderer;
 
     void Update()
     {
@@ -47,12 +48,9 @@ public class FinalBossController : MonoBehaviour
     // Ability 1: Spawn Enemies
     IEnumerator SpawnEnemies()
     {
-        Debug.Log("Final boss started spawning enemies!");
-
-        foreach (Transform spawnPoint in spawnPoints)
-        {
-            Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-        }
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+        Transform spawnPoint = spawnPoints[randomIndex];
+        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
 
         yield return new WaitForSeconds(2f); // Wait before another ability
         StartAbilities();
@@ -61,8 +59,6 @@ public class FinalBossController : MonoBehaviour
     // Ability 2: Shoot a Beam
     IEnumerator ShootBeam()
     {
-        Debug.Log("Final boss started shooting beam!");
-
         // Instantiate the beam projectile and aim it at the player
         GameObject beam = Instantiate(beamPrefab, beamSpawnPoint.position, Quaternion.identity);
         EyeBeam beamComponent = beam.GetComponent<EyeBeam>();
@@ -93,9 +89,8 @@ public class FinalBossController : MonoBehaviour
 
         Debug.Log("Final boss started big damage attack!");
         
-        yield return new WaitForSeconds(2f); // Give 3 seconds to perform the special attack
+        yield return new WaitForSeconds(2f);
 
-        // Show blackout screen
         blackoutScreen.SetActive(true);
 
         yield return new WaitForSeconds(3f); // Give 3 seconds to perform the special attack
@@ -103,11 +98,10 @@ public class FinalBossController : MonoBehaviour
         // If the player doesn't do the special attack, kill them
         if (!player.specialAttackTriggered)
         {
-            player.Die(); // Replace with actual method to kill the player
+            player.Die();
         }
         else
         {
-            // Cancel the attack if the player does the special attack
             CancelBigDamageAttack();
         }
     }
@@ -115,14 +109,12 @@ public class FinalBossController : MonoBehaviour
     // Cancel the big damage attack and reset after 5 seconds
     void CancelBigDamageAttack()
     {
-        // Play the attack end animation
         bossAnimator.SetTrigger("AttackEnd");
 
         // Disable the blackout screen
         blackoutScreen.SetActive(false);
         bossHealth = currentHealth;
 
-        // Reset the attacking state and wait for 5 seconds
         StartCoroutine(ResetAfterAttack());
     }
 
@@ -147,6 +139,7 @@ public class FinalBossController : MonoBehaviour
     // Method to reduce the boss's health (e.g., when hit by the player)
     public void TakeDamage(int damage)
     {
+        StartCoroutine(FlashAlpha());
         bossHealth -= damage;
 
         // Check if boss health is 40 or below and the big damage attack has not been done yet
@@ -157,6 +150,29 @@ public class FinalBossController : MonoBehaviour
             hasDoneBigDamageAttack = true;  // Ensure it only triggers once
             BigDamageAttack();              // Trigger the big damage attack
         }
+    }
+
+    IEnumerator FlashAlpha()
+    {
+        SetAlpha(0.5f);
+        yield return new WaitForSeconds(0.5f);
+        SetAlpha(1f);
+
+    }
+
+    private void SetAlpha(float alpha)
+    {
+        // Ensure the alpha value is clamped between 0 and 1
+        alpha = Mathf.Clamp01(alpha);
+
+        // Get the current color of the SpriteRenderer
+        Color color = spriteRenderer.color;
+
+        // Set the alpha to the desired value
+        color.a = alpha;
+
+        // Apply the updated color back to the SpriteRenderer
+        spriteRenderer.color = color;
     }
 }
 
