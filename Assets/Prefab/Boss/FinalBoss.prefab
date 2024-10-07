@@ -321,8 +321,9 @@ MonoBehaviour:
   beamPrefab: {fileID: 6751286496056173956, guid: 1f5571d73376d04489773e1d38c8b720, type: 3}
   beamSpawnPoint: {fileID: 6522795458948955541}
   bossAnimator: {fileID: 6986172495106102528}
-  bossHealth: 100
+  bossHealth: 150
   blackoutScreen: {fileID: 0}
   player: {fileID: 2331037659019503207, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
   playerObject: {fileID: 1855256446914668830, guid: b527b4c80f4b06d489450a9802df6c6f, type: 3}
   spriteRenderer: {fileID: 0}
+  princessSceneBlock: {fileID: 0}
