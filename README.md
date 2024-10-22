@@ -1,2 +1,2 @@
 # Spook-n-Rescue
-A game jam game about a hero fighting his way up the tower to save the princess.
+A 1-bit (black and white) 2D platformer game made for 1-BIT JAM #4 on itch.io.
